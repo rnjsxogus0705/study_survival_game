@@ -5,16 +5,22 @@
     {
         public Transform target;
         public float speed = 3.0f;
+        
         private Rigidbody rb;
-        bool ispanwed = false;
+        private Animator animator;
+        
+        private bool ispanwed = false;
         private void Start()
         {
             rb = GetComponent<Rigidbody>();
+            animator = GetComponent<Animator>();
         }
         
         public void Initalize(Transform player)
         {
             target = player;
+            Rotate(direction());
+            
             StartCoroutine(SpawnStartCoroutine(transform.localScale));
         }
 
@@ -31,8 +37,8 @@
                 timer += Time.deltaTime;
                 yield return null;
             }
-            
             ispanwed = true;
+            animator.SetTrigger("MOVE");
         }
 
         private void FixedUpdate()
@@ -44,15 +50,26 @@
 
         void MoveAndRotate()
         {
+            Rotate(direction(), false);
+            rb.MovePosition(rb.position + direction() * speed * Time.fixedDeltaTime);
+        }
+
+        Vector3 direction()
+        {
             Vector3 direction = (target.position - transform.position).normalized;
             direction.y = 0f;
+            return direction;
+        }
 
+        void Rotate(Vector3 direction, bool Lerp = true)
+        {
+            
             if (direction != Vector3.zero)
             {
                 Quaternion targetRotation = Quaternion.LookRotation(direction);
-                transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, 10f * Time.deltaTime);
+                if (Lerp)
+                    transform.rotation = Quaternion.Lerp(transform.rotation, targetRotation, 10f * Time.deltaTime);
+                else transform.rotation = targetRotation;
             }
-            
-            rb.MovePosition(rb.position + direction * speed * Time.fixedDeltaTime);
-        } 
+        }
 }
