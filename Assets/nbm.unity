@@ -612,6 +612,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: b18e290713aed394a898f0c2f847b11a, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1740906706}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: b18e290713aed394a898f0c2f847b11a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1740906709}
   m_SourcePrefab: {fileID: 100100000, guid: b18e290713aed394a898f0c2f847b11a, type: 3}
 --- !u!1 &1740906703 stripped
 GameObject:
@@ -684,6 +687,20 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: b18e290713aed394a898f0c2f847b11a, type: 3}
   m_PrefabInstance: {fileID: 1620817972}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1740906709
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1740906703}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 176a3123dc0be2d4392eb59044007c75, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 0}
+  speed: 3
 --- !u!1 &1982576572
 GameObject:
   m_ObjectHideFlags: 0
@@ -713,10 +730,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8ce350ce0b39b74d99cb1aa4e129c4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  monsterPrefab: {fileID: 2901719219832535899, guid: b73d20cb4f325db43acdd7e911a9f23a, type: 3}
+  centerPoint: {x: 0, y: 0, z: 0}
   spawnRadius: 30
-  spawnInterval: 0.2
+  monsterPrefab: {fileID: 2901719219832535899, guid: b73d20cb4f325db43acdd7e911a9f23a, type: 3}
   player: {fileID: 1740906708}
+  spawnInterval: 0.2
   timer: 0
 --- !u!4 &1982576574
 Transform:

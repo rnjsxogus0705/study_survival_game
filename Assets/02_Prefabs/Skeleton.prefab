@@ -316,10 +316,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1434320203496819558}
-  - component: {fileID: 3285268660798670219}
-  - component: {fileID: 5161042054783699816}
-  - component: {fileID: -7112486130676360859}
-  - component: {fileID: 4561777934708621073}
+  - component: {fileID: -1230178128911776834}
+  - component: {fileID: -9039089680610422669}
+  - component: {fileID: 7801897391779765750}
   m_Layer: 0
   m_Name: Skeleton
   m_TagString: Untagged
@@ -344,21 +343,7 @@ Transform:
   - {fileID: 1074960034569937933}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
---- !u!114 &3285268660798670219
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2901719219832535899}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 176a3123dc0be2d4392eb59044007c75, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  target: {fileID: 0}
-  speed: 3
---- !u!136 &5161042054783699816
+--- !u!136 &-1230178128911776834
 CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -381,7 +366,7 @@ CapsuleCollider:
   m_Height: 0.15
   m_Direction: 1
   m_Center: {x: 0, y: 0.07, z: 0}
---- !u!54 &-7112486130676360859
+--- !u!54 &-9039089680610422669
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -408,28 +393,20 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
---- !u!95 &4561777934708621073
-Animator:
-  serializedVersion: 7
+--- !u!114 &7801897391779765750
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2901719219832535899}
   m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: e835ccf40e6ad564fb95536fb7fbee51, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1917dd4d689c69648bacfe49fcb9eb3b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 0}
+  speed: 3
 --- !u!1 &3157052856790692560
 GameObject:
   m_ObjectHideFlags: 0
