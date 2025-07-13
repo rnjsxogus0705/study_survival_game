@@ -14679,6 +14679,7 @@ MonoBehaviour:
   speed: 10
   lifetime: 5
   ExplosionParticle: {fileID: 1141330259687333427, guid: 6718dc24203da53468af9ada8fef7d6d, type: 3}
+  DamageObject: {fileID: 4870569846519744849, guid: 24d7265fa79304446afae2a25350c2ee, type: 3}
 --- !u!135 &3877219644107350365
 SphereCollider:
   m_ObjectHideFlags: 0
