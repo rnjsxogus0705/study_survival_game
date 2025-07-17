@@ -72,7 +72,7 @@ public class Pool_Mng : MonoBehaviour
         {
             Add_Pool(path);
         }
-
+        if(m_pool_Dictionary[path].pool.Count <= 0) Add_Queue(path);
         return m_pool_Dictionary[path];
     }
 
@@ -84,7 +84,6 @@ public class Pool_Mng : MonoBehaviour
         
         m_pool_Dictionary.Add(path, T_Pool);
         T_Pool.parentTransform = obj.transform;
-        Add_Queue(path);
         return obj;
     }
     
