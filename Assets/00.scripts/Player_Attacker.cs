@@ -12,6 +12,7 @@ public class Player_Attacker : MonoBehaviour
 
     IEnumerator FireCoroutine()
     {
+        
         yield return new WaitForSeconds(1.0f);
         FireProjectile();
         StartCoroutine(FireCoroutine());
