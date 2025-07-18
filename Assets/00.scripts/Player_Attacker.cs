@@ -26,14 +26,14 @@ public class Player_Attacker : MonoBehaviour
         }
         else
         {
-            {
-                fireDir = transform.forward;
-            }
+            fireDir = transform.forward;
         }
-        
-        GameObject bullet = Instantiate(bulletPrefab,
-            (transform.position + new Vector3(0,1.0f,0)) + fireDir * 1.0f,
-            Quaternion.identity);
-        bullet.GetComponent<Bullet>().Initalize(fireDir);
+
+        var bullet = MANAGER.POOL.Pooling_OBJ("Projectile").Get((value) =>
+        {
+            Vector3 pos = transform.position + new Vector3(0, 1.0f, 0) + fireDir * 1.0f;
+            value.transform.position = pos;
+            value.GetComponent<Bullet>().Initalize(fireDir);
+        });
     }
 }
