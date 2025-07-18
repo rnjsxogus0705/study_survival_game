@@ -56,7 +56,6 @@ public class Pool_Mng : MonoBehaviour
     {
         base_Obj = this.transform;
     }
-
     
     public IPool Pooling_OBJ(string path)
     {
