@@ -17,7 +17,6 @@
             {
                 Destroy(this.gameObject);
             }
-
             POOL = GetComponentInChildren<Pool_Mng>();
         }
     }
