@@ -9771,7 +9771,7 @@ GameObject:
   - component: {fileID: 1026220850606521299}
   - component: {fileID: 3877219644107350365}
   m_Layer: 0
-  m_Name: Progjectile
+  m_Name: Projectile
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
