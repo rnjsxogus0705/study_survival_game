@@ -1,27 +1,23 @@
     using System.Collections;
     using UnityEngine;
 
-    public class Monster_Movement : MonoBehaviour
+    public class Monster_Movement : MONSTER
     {
-        public Transform target;
         public float speed = 3.0f;
         
         private Rigidbody rb;
         private Animator animator;
-        
-        private bool ispanwed = false;
         private void Start()
         {
             rb = GetComponent<Rigidbody>();
-            animator = GetComponent<Animator>();
+            animator = GetComponentInChildren<Animator>();
         }
         
-        public void Initalize(Transform player)
+        public override void Initalize(Transform player)
         {
-            target = player;
-            Rotate(direction());
-            
-            StartCoroutine(SpawnStartCoroutine(transform.localScale));
+            base.Initalize(player);
+            Rotate(direction(), false);
+            StartCoroutine(SpawnStartCoroutine(new Vector3(15,15,15)));
         }
 
         IEnumerator SpawnStartCoroutine(Vector3 scaleEnd)
@@ -37,13 +33,14 @@
                 timer += Time.deltaTime;
                 yield return null;
             }
-            ispanwed = true;
+            isSpanwed = true;
             animator.SetTrigger("MOVE");
         }
 
         private void FixedUpdate()
         {
-            if (!ispanwed) return;
+            if (isDead) return;
+            if (!isSpanwed) return;
             
             MoveAndRotate();
         }

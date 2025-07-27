@@ -27,7 +27,7 @@ public class Spawner : MonoBehaviour
         var monster = MANAGER.POOL.Pooling_OBJ("Monster").Get((value) =>
         {
             value.transform.position = spawnPos;
-            value.GetComponent<Monster_Movement>().Initalize(player);
+            value.GetComponent<MONSTER>().Initalize(player);
         });
     }
 

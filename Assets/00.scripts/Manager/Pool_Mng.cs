@@ -11,14 +11,6 @@ using System.Linq;
 // 3D게임 -> 컴포넌트,메시,물리 충돌 등 더욱 많은 리소스를 사용하므로 부담 더 큼
 
 // '인터페이스'란? - "이렇게 생긴 함수랑 변수는 꼭 있어야 해!"라고 약속해주는 틀
-public interface IPool
-{
-    public Transform parentTransform { get; set; }
-    public Queue<GameObject> pool { get; set; }
-    public GameObject Get(Action<GameObject> action = null);
-
-    public void Return(GameObject obj, Action<GameObject> action = null);
-}
 
 public class Object_Pool : IPool
 {
@@ -45,7 +37,7 @@ public class Object_Pool : IPool
     public void Return(GameObject obj, Action<GameObject> action = null)
     {
         pool.Enqueue(obj);
-        obj.transform.parent = parentTransform;
+        obj.transform.SetParent(parentTransform);
         obj.SetActive(false);
         if (action != null)
         {
