@@ -29,16 +29,21 @@ public class Player : MonoBehaviour
     public Transform GetNearestMonster()
     {
         Collider[] hits = Physics.OverlapSphere(transform.position, detectionRadius, monsterLayer);
+        
         Transform nearest = null;
         float minDist = Mathf.Infinity;
 
         foreach (Collider col in hits)
         {
-            float dist = Vector3.Distance(transform.position, col.transform.position);
-            if (dist < minDist)
+            if (col.GetComponent<MONSTER>().isSpanwed)
             {
-                minDist = dist;
-                nearest = col.transform;
+                float dist = Vector3.Distance(transform.position, col.transform.position);
+                if (dist < minDist)
+                {
+                    minDist = dist;
+                    nearest = col.transform;
+                }
+
             }
         }
 

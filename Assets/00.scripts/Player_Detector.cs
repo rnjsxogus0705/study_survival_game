@@ -7,7 +7,7 @@ public class Player_Detector : MonoBehaviour
 
     private void Update()
     {
-        Collider[]hits = Physics.OverlapSphere(transform.position, magnetRadius, orbLayer);
+        Collider[]hits = Physics.OverlapSphere(transform.position, MANAGER.SESSION.mangnetRadius, orbLayer);
 
         foreach (var hit in hits)
         {

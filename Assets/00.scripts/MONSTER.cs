@@ -16,6 +16,7 @@ public class MONSTER : MonoBehaviour
 
     public virtual void Initalize(Transform player)
     {
+        MANAGER.SESSION.AddMonster();
         isSpanwed = true;
         HP = 10;
         MaxHP = HP;
@@ -32,13 +33,14 @@ public class MONSTER : MonoBehaviour
         var damageFont = MANAGER.POOL.Pooling_OBJ("DamageTMP").Get((value) =>
         {
             value.GetComponent<DamageTMP>().Initalize(
-                Base_Canvas.instance.transform, 
+                Base_Canvas.instance.HOLDERLAYER, 
                 transform.position, 
                 dmg.ToString());
         });            
         if (HP <= 0)
         {
             isDead = true;
+            MANAGER.SESSION.RemoveMonster();
             var deadEffect = MANAGER.POOL.Pooling_OBJ("DeadEffect").Get((value) =>
             {
                 value.transform.position = transform.position + new Vector3(0, 0.5f, 0);
@@ -48,7 +50,7 @@ public class MONSTER : MonoBehaviour
                 () => MANAGER.POOL.m_pool_Dictionary["DeadEffect"].Return(deadEffect)));
 
             MANAGER.POOL.m_pool_Dictionary["Monster"].Return(this.gameObject);
-            DropEXP(transform.position, Random.Range(1.0f, 5.0f));
+            DropEXP(transform.position, Random.Range(10.0f, 50.0f));
             
         }
         
@@ -57,7 +59,7 @@ public class MONSTER : MonoBehaviour
 
     private void DropEXP(Vector3 deathPosition, float exp = 1.0f)
     {
-        float[] units = { 3.0f, 1.0f, .25f };
+        float[] units = { 50.0f, 30.0f, 10.0f };
 
         foreach(float unit in units)
         {
