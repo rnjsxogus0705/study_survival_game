@@ -16,6 +16,10 @@ public class Orb : MonoBehaviour
     public void Initalize(float amount, Vector3 endPosition)
     {
         expValue = amount;
+        
+        if(!MANAGER.SESSION.Orbs.Contains(this))
+            MANAGER.SESSION.Orbs.Add(this);
+        
         DropExp(endPosition);
         if (amount == 3f)
         {
@@ -88,6 +92,7 @@ public class Orb : MonoBehaviour
 
     void Absorb()
     {
+        MANAGER.SESSION.Orbs.Remove(this);
         MANAGER.POOL.m_pool_Dictionary["Orb"].Return(this.gameObject);
         MANAGER.SESSION.AddExp(expValue);
     }

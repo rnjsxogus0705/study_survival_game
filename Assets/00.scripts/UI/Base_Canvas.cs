@@ -41,9 +41,11 @@ public class Base_Canvas : MonoBehaviour
         TimerText.text = Utils_UI.FormatTime(MANAGER.SESSION.GameTime);
     }
 
-    public void Selectcard()
+    public void SelectCard()
     {
-        CardObject.Intialize();
+        if (CardObject != null && !CardObject.gameObject.activeInHierarchy)
+            CardObject.gameObject.SetActive(true);
+        CardObject.Initalize();
     }
 
     private void M_CountText(int value) => monsterCountText.text = value.ToString();

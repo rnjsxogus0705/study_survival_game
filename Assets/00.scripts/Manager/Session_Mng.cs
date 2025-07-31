@@ -1,18 +1,25 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public delegate void OnExpChanaged(float exp);
 public delegate void OnMonsterCountChanged(int value);
+public delegate void OnSelectedCard();
 
 public class Session_Mng : MonoBehaviour
 {
     public OnExpChanaged onExpChanged;
     public OnMonsterCountChanged onMonsterCountChanged;
+    public OnSelectedCard onSelectedCard;
+    
+    public List<Orb> Orbs = new List<Orb>();
+    public Dictionary<string, SelectCard> SelectedCards = new Dictionary<string, SelectCard>();
+    
     public int CurrentWave;
     public int Level;
     public int Damage;
     public int monsterCount;
 
-    public float mangnetRadius;
+    public float magnetRadius;
     public float EXP;
     public float GameTime;
     
@@ -21,6 +28,24 @@ public class Session_Mng : MonoBehaviour
     private void Update()
     {
         GameTime += Time.unscaledDeltaTime;
+    }
+
+    public void SelectedCard(CardDB db)
+    {
+        if (SelectedCards.ContainsKey(db.id))
+        {
+            var data = SelectedCards[db.id];
+            data.Level++;
+        }
+        else
+        {
+            var selected = new SelectCard();
+            selected.db = db;
+            selected.Level = 1;
+            SelectedCards.Add(db.id, selected); 
+        }
+        Debug.Log(db.id + "카드가 선택되었습니다. \nLevel :" + SelectedCards[db.id].Level);
+        onSelectedCard?.Invoke();
     }
     public void AddMonster()
     {    
@@ -42,7 +67,7 @@ public class Session_Mng : MonoBehaviour
             EXP = 0;
             Level++;
             Time.timeScale = 0;
-            Base_Canvas.instance.Selectcard();
+            Base_Canvas.instance.SelectCard();
         }
         onExpChanged?.Invoke(EXP);
     }
