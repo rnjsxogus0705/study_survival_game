@@ -21,7 +21,7 @@ public class Util_Coroutine
             
             float y = Mathf.Sin(Mathf.PI * t) * height;
             
-            obj.position = new Vector3(start.x + flatPos.x, flatPos.y + y, flatPos.z);
+            obj.position = new Vector3(flatPos.x, flatPos.y + y, flatPos.z);
             
             time += Time.deltaTime;
             yield return null;

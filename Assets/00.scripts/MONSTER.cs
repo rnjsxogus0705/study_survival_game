@@ -50,7 +50,7 @@ public class MONSTER : MonoBehaviour
                 () => MANAGER.POOL.m_pool_Dictionary["DeadEffect"].Return(deadEffect)));
 
             MANAGER.POOL.m_pool_Dictionary["Monster"].Return(this.gameObject);
-            DropEXP(transform.position, Random.Range(10.0f, 50.0f));
+            DropEXP(transform.position, Random.Range(1.0f, 5.0f));
             
         }
         
@@ -59,16 +59,15 @@ public class MONSTER : MonoBehaviour
 
     private void DropEXP(Vector3 deathPosition, float exp = 1.0f)
     {
-        float[] units = { 50.0f, 30.0f, 10.0f };
+        float[] units = { 3.0f, 1.0f, .25f };
 
         foreach(float unit in units)
         {
             while(exp >= unit)
             {
                 exp -= unit;
-
+                
                 OrbMake(deathPosition, unit);
-              
             }
         }
 

@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 5885009291121014918}
   - component: {fileID: 8198821204510491796}
   - component: {fileID: 3525058745870809299}
-  - component: {fileID: 7978826101947079499}
   - component: {fileID: -8167124956237750175}
+  - component: {fileID: 8539002485764826086}
   m_Layer: 7
   m_Name: Orb
   m_TagString: Untagged
@@ -88,7 +88,26 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!135 &7978826101947079499
+--- !u!114 &-8167124956237750175
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 773020213005374938}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aed4cae6dca41ea41b8993f613582547, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  expValue: 0
+  colors:
+  - {r: 1, g: 0.627451, b: 0, a: 1}
+  - {r: 0.8, g: 0.4862745, b: 1, a: 1}
+  - {r: 0.2520215, g: 0.6456519, b: 1, a: 0}
+  - {r: 0.5921569, g: 0.85490197, b: 1, a: 1}
+  isIdle: 0
+--- !u!135 &8539002485764826086
 SphereCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -109,22 +128,3 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &-8167124956237750175
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 773020213005374938}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aed4cae6dca41ea41b8993f613582547, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  expValue: 0
-  colors:
-  - {r: 1, g: 0.57716817, b: 0.07412386, a: 0}
-  - {r: 0.62644124, g: 0.43643603, b: 0.8544474, a: 0}
-  - {r: 0.2520215, g: 0.6456519, b: 1, a: 0}
-  - {r: 0.5921569, g: 0.85490197, b: 1, a: 1}
-  isIdle: 0
