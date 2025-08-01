@@ -27,6 +27,6 @@ using UnityEngine;
 
         public void Run(IEnumerator coroutine)
         {
-            
+            StartCoroutine(coroutine);
         }
     }

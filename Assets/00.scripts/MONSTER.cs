@@ -6,8 +6,7 @@ public class MONSTER : MonoBehaviour
     public float MaxHP;
 
     public Transform target;
-
-    public string monsterid;
+    public string monsterId;
 
     public bool isSpanwed = false;
     public bool isDead = false;
@@ -17,14 +16,17 @@ public class MONSTER : MonoBehaviour
     public virtual void Initalize(Transform player)
     {
         MANAGER.SESSION.AddMonster();
-        isSpanwed = true;
+        isSpanwed = false;
         HP = 10;
         MaxHP = HP;
 
-        monsterid = Random.Range(0, 2) == 1 ? "Skeleton_01" : "Skeleton_02";
+        isDead = false;
+
+        monsterId = Random.Range(0, 2) == 1 ? "Skeleton_01" : "Skeleton_02";
+        
         factory = new GenericPartFactory<MONSTER>(MANAGER.DB.Monster);
         target = player;
-        factory.Build(this, monsterid);
+        factory.Build(this, monsterId);
     }
 
     public void GetDamage(int dmg)
