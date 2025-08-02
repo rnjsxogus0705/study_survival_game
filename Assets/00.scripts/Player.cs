@@ -1,4 +1,4 @@
-using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -15,6 +15,7 @@ public class Player : MonoBehaviour
     
     public float detectionRadius;
     public LayerMask monsterLayer;
+    public List<Transform> targets = new List<Transform>();
 
     public Transform target
     {
@@ -32,11 +33,12 @@ public class Player : MonoBehaviour
         
         Transform nearest = null;
         float minDist = Mathf.Infinity;
-
+        targets = new List<Transform>();
         foreach (Collider col in hits)
         {
             if (col.GetComponent<MONSTER>().isSpanwed)
             {
+                targets.Add(col.transform);
                 float dist = Vector3.Distance(transform.position, col.transform.position);
                 if (dist < minDist)
                 {

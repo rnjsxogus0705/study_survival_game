@@ -13,13 +13,16 @@ public enum CardState { Active, Passive }
 public class CardDB : ScriptableObject
 {
     public string id;
-    
+    public string className;
     [Space(20f)]
     [TextArea(1 , 10)]
     public string description;
     public CardState state;
 
      [Space(20f)] 
-     [Header("데미지")]
-    public float DamagePercentage;
+     [Header("스킬 데이터")]
+    public float baseCooldown;
+    public float baseDamage;
+    public float cooldownPerLevel;
+    public float damagePerLevel;
 }

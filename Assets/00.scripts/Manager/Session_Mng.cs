@@ -4,13 +4,11 @@ using UnityEngine;
 public delegate void OnExpChanaged(float exp);
 public delegate void OnMonsterCountChanged(int value);
 public delegate void OnSelectedCard();
-
 public class Session_Mng : MonoBehaviour
 {
     public OnExpChanaged onExpChanged;
     public OnMonsterCountChanged onMonsterCountChanged;
     public OnSelectedCard onSelectedCard;
-    
     public List<Orb> Orbs = new List<Orb>();
     public Dictionary<string, SelectCard> SelectedCards = new Dictionary<string, SelectCard>();
     
@@ -22,17 +20,21 @@ public class Session_Mng : MonoBehaviour
     public float magnetRadius;
     public float EXP;
     public float GameTime;
-    
     public bool isGameOver = false;
 
     private void Update()
     {
-        GameTime += Time.unscaledDeltaTime;
+        GameTime += Time.deltaTime;
+    }
+
+    public bool HaveCard(CardDB db)
+    {
+        return SelectedCards.ContainsKey(db.id);
     }
 
     public void SelectedCard(CardDB db)
     {
-        if (SelectedCards.ContainsKey(db.id))
+        if (HaveCard(db))
         {
             var data = SelectedCards[db.id];
             data.Level++;
@@ -42,17 +44,22 @@ public class Session_Mng : MonoBehaviour
             var selected = new SelectCard();
             selected.db = db;
             selected.Level = 1;
-            SelectedCards.Add(db.id, selected); 
+            SelectedCards.Add(db.id, selected);
         }
-        Debug.Log(db.id + "카드가 선택되었습니다. \nLevel :" + SelectedCards[db.id].Level);
+        RegisterSkill(db);
+    }
+
+    public void RegisterSkill(CardDB db)
+    {
+        MANAGER.SKILL.RegisterSkill(db, SelectedCards[db.id].Level);
         onSelectedCard?.Invoke();
     }
+
     public void AddMonster()
-    {    
+    {
         monsterCount++;
         onMonsterCountChanged?.Invoke(monsterCount);
     }
-
 
     public void RemoveMonster()
     {
@@ -66,7 +73,6 @@ public class Session_Mng : MonoBehaviour
         {
             EXP = 0;
             Level++;
-            Time.timeScale = 0;
             Base_Canvas.instance.SelectCard();
         }
         onExpChanged?.Invoke(EXP);

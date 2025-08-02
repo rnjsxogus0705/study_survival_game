@@ -6,6 +6,7 @@ public class MONSTER : MonoBehaviour
     public float MaxHP;
 
     public Transform target;
+
     public string monsterId;
 
     public bool isSpanwed = false;
@@ -29,7 +30,7 @@ public class MONSTER : MonoBehaviour
         factory.Build(this, monsterId);
     }
 
-    public void GetDamage(int dmg)
+    public void GetDamage(float dmg)
     {
         HP -= dmg;
         var damageFont = MANAGER.POOL.Pooling_OBJ("DamageTMP").Get((value) =>
@@ -37,7 +38,7 @@ public class MONSTER : MonoBehaviour
             value.GetComponent<DamageTMP>().Initalize(
                 Base_Canvas.instance.HOLDERLAYER, 
                 transform.position, 
-                dmg.ToString());
+                ((int)dmg).ToString());
         });            
         if (HP <= 0)
         {
