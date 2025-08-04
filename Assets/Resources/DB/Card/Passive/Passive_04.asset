@@ -10,13 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d788c43be03c0fe4da90b6dbd543ba2c, type: 3}
-  m_Name: Scriptable
+  m_Name: Passive_04
   m_EditorClassIdentifier: 
-  id: 
-  className: 
-  description: 
-  state: 0
+  id: "\uD55C \uBC29\uC758 \uAE30\uD68C"
+  className: CP
+  description: "\uCE58\uBA85\uD0C0 \uD655\uB960\uC774 <color=#FF0000>+{0}%</color>\uB9CC\uD07C
+    \uC99D\uAC00\uD569\uB2C8\uB2E4."
+  state: 1
   baseCooldown: 0
-  baseDamage: 0
+  baseDamage: 5
   cooldownPerLevel: 0
-  damagePerLevel: 0
+  damagePerLevel: 5

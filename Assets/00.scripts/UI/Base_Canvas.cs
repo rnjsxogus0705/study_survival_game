@@ -22,7 +22,8 @@ public class Base_Canvas : MonoBehaviour
         MANAGER.SESSION.onExpChanged += EXPChange;
         MANAGER.SESSION.onMonsterCountChanged += M_CountText;
         MANAGER.SESSION.onSelectedCard += SetSkillFrame;
-        SelectCard();
+        
+        SelectCard(true);
     }
     
     public Transform HOLDERLAYER;
@@ -34,30 +35,19 @@ public class Base_Canvas : MonoBehaviour
     public TextMeshProUGUI TimerText;
     
     public SkillFrame frame;
-    public Transform activeFrameContent;
-    public Transform passiveFrameContent;
-    List<GameObject> SkillFrameGorvage = new List<GameObject>();
+    public Transform frameContent;
     
     private void SetSkillFrame()
     {
-        if (SkillFrameGorvage.Count > 0)
-        {
-            for (int i = 0; i < SkillFrameGorvage.Count; i++)
-                Destroy(SkillFrameGorvage[i]);
-
-            SkillFrameGorvage.Clear();
-        }
         
-        foreach(var data in MANAGER.SESSION.SelectedCards)
-        {
-            var go = Instantiate(frame, 
-                data.Value.db.state == CardState.Active ? 
-                activeFrameContent:
-                passiveFrameContent);
-
-            go.Initalize(data.Value);
-            SkillFrameGorvage.Add(go.gameObject);
-        }
+            for (int i = 0; i < frameContent.childCount; i++)
+                Destroy(frameContent.GetChild(i).gameObject);
+        
+            foreach(var data in MANAGER.SESSION.SelectedCards)
+            {
+                var go = Instantiate(frame, frameContent);
+                go.Initalize(data.Value);
+            }
     }
 
     private void Update()
@@ -65,21 +55,10 @@ public class Base_Canvas : MonoBehaviour
         TimerText.text = Utils_UI.FormatTime(MANAGER.SESSION.GameTime);
     }
 
-    public void SelectCard()
+    public void SelectCard(bool AllActive = false)
     {
-        if (CardObject != null && !CardObject.gameObject.activeInHierarchy)
-            CardObject.gameObject.SetActive(true);
         Time.timeScale = 0;
-        if (CardObject != null)
-        {
-            if (!CardObject.gameObject.activeInHierarchy)
-                CardObject.gameObject.SetActive(true);
-            CardObject.Initalize();
-        }
-        else
-        {
-            Debug.LogError("Base_Canvas: CardObject가 null입니다.");
-        }
+        CardObject.Initalize(AllActive);
     }
 
     private void M_CountText(int value) => monsterCountText.text = value.ToString();

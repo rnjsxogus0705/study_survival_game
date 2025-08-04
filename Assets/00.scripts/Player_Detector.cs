@@ -6,7 +6,7 @@ public class Player_Detector : MonoBehaviour
 
     private void Update()
     {
-        Collider[] hits = Physics.OverlapSphere(transform.position, MANAGER.SESSION.magnetRadius, orbLayer);
+        Collider[] hits = Physics.OverlapSphere(transform.position, Magnet(), orbLayer);
 
         foreach(var hit in hits)
         {
@@ -16,5 +16,12 @@ public class Player_Detector : MonoBehaviour
                 orb.StartFollow(transform);
             }
         }
+    }
+
+    private float Magnet()
+    {
+        float baseMagnet = MANAGER.SESSION.magnetRadius;
+        float magnet = baseMagnet + baseMagnet * (MANAGER.SESSION.magnetRadiusPercent / 100);
+        return magnet;
     }
 }

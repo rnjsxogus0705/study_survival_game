@@ -32,13 +32,16 @@ public class MONSTER : MonoBehaviour
 
     public void GetDamage(float dmg)
     {
-        HP -= dmg;
+        bool critical = MANAGER.SESSION.GetCritical();
+        float realDmg = critical ? dmg + dmg * (MANAGER.SESSION.CriticalDamage / 100) : dmg;
+        HP -= realDmg;
         var damageFont = MANAGER.POOL.Pooling_OBJ("DamageTMP").Get((value) =>
         {
             value.GetComponent<DamageTMP>().Initalize(
-                Base_Canvas.instance.HOLDERLAYER, 
-                transform.position, 
-                ((int)dmg).ToString());
+                Base_Canvas.instance.HOLDERLAYER,
+                transform.position,
+                ((int)realDmg).ToString(),
+                critical);
         });            
         if (HP <= 0)
         {

@@ -11,11 +11,11 @@ public class CardSelector : MonoBehaviour
         animator = GetComponent<Animator>();
     }
 
-    public void Initalize()
+    public void Initalize(bool AllActive = false)
     {
         isSelected = false;
         animator.Play("Selector_Open");
-        var Cards = MANAGER.DB.GetRandomCardSet();
+        var Cards = MANAGER.DB.GetRandomCardSet(AllActive);
         for (int i = 0; i < cards.Length; i++) cards[i].Initalize(Cards[i]);
     }
 

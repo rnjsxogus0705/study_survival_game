@@ -9,22 +9,38 @@ public class Session_Mng : MonoBehaviour
     public OnExpChanaged onExpChanged;
     public OnMonsterCountChanged onMonsterCountChanged;
     public OnSelectedCard onSelectedCard;
-    public List<Orb> Orbs = new List<Orb>();
+    
     public Dictionary<string, SelectCard> SelectedCards = new Dictionary<string, SelectCard>();
     
     public int CurrentWave;
     public int Level;
-    public int Damage;
     public int monsterCount;
-
-    public float magnetRadius;
+    
     public float EXP;
     public float GameTime;
+    
     public bool isGameOver = false;
+    
+    [Space(20f)]
+    [Header("## Player Data ##")]
+    public float Damage;
+    public float HP;
+    public float MaxHP;
+    public float magnetRadius;
+
+    
+    [Space(20f)]
+    [Header("## Player Plus Data ##")]
+    public float DamagePercent;
+    public float HPPercent;
+    public float magnetRadiusPercent;
+    public float expPlusPercentage;
+    public float CriticalPercentage;
+    public float CriticalDamage;
 
     private void Update()
     {
-        GameTime += Time.deltaTime;
+        GameTime += Time.unscaledDeltaTime;
     }
 
     public bool HaveCard(CardDB db)
@@ -46,11 +62,6 @@ public class Session_Mng : MonoBehaviour
             selected.Level = 1;
             SelectedCards.Add(db.id, selected);
         }
-        RegisterSkill(db);
-    }
-
-    public void RegisterSkill(CardDB db)
-    {
         MANAGER.SKILL.RegisterSkill(db, SelectedCards[db.id].Level);
         onSelectedCard?.Invoke();
     }
@@ -60,14 +71,16 @@ public class Session_Mng : MonoBehaviour
         monsterCount++;
         onMonsterCountChanged?.Invoke(monsterCount);
     }
-
+    
     public void RemoveMonster()
     {
         monsterCount--;
         onMonsterCountChanged?.Invoke(monsterCount);
     }
+    
     public void AddExp(float exp)
     {
+        float realExp = exp + exp * (expPlusPercentage / 100);
         EXP += exp;
         if (EXP >= GetRequiredExp())
         {
@@ -77,7 +90,12 @@ public class Session_Mng : MonoBehaviour
         }
         onExpChanged?.Invoke(EXP);
     }
-
+    public void RegisterSkill(CardDB db)
+    {
+        MANAGER.SKILL.RegisterSkill(db, SelectedCards[db.id].Level);
+        onSelectedCard?.Invoke();
+    }
+    
     public int GetRequiredExp()
     {
         int level = Level + 1;
@@ -90,6 +108,13 @@ public class Session_Mng : MonoBehaviour
         else if (level == 40)
             return (level * 13) - 6 + 2400;
         else return (level * 16) -8;
-
+    }
+    
+    public bool GetCritical()
+    {
+        float RandomValue = Random.value * 100.0f;
+        if (RandomValue <= CriticalPercentage)
+            return true;
+        else return false;
     }
 }

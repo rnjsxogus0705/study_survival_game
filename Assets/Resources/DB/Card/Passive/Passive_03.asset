@@ -12,8 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d788c43be03c0fe4da90b6dbd543ba2c, type: 3}
   m_Name: Passive_03
   m_EditorClassIdentifier: 
-  id: "\uBE60\uB978 \uC131\uC7A5"
-  description: "\uD50C\uB808\uC774\uC5B4\uC758 \uACBD\uD5D8\uCE58 \uD68D\uB4DD\uB7C9\uC744
-    <color=#FF0000>+{0}%</color>\uB9CC\uD07C \uC99D\uAC00\uC2DC\uD0B5\uB2C8\uB2E4."
+  id: "\uC131\uC7A5\uC758 \uC7AC\uB2A5"
+  className: EXP
+  description: "\uD50C\uB808\uC774\uC5B4\uC758 \uACBD\uD5D8\uCE58 \uD68D\uB4DD\uB7C9\uC774
+    <color=#FF0000>+{0}%</color>\uB9CC\uD07C \uC99D\uAC00\uD569\uB2C8\uB2E4."
   state: 1
-  DamagePercentage: 10
+  baseCooldown: 0
+  baseDamage: 30
+  cooldownPerLevel: 0
+  damagePerLevel: 30

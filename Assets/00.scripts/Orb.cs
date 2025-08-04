@@ -91,7 +91,6 @@ public class Orb : MonoBehaviour
 
     void Absorb()
     {
-        MANAGER.SESSION.Orbs.Remove(this);
         MANAGER.POOL.m_pool_Dictionary["Orb"].Return(this.gameObject);
         MANAGER.SESSION.AddExp(expValue);
     }
