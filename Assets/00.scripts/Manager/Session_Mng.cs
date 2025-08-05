@@ -4,12 +4,15 @@ using UnityEngine;
 public delegate void OnExpChanaged(float exp);
 public delegate void OnMonsterCountChanged(int value);
 public delegate void OnSelectedCard();
+public delegate void OnHPChanged(float hp);
 public class Session_Mng : MonoBehaviour
 {
     public OnExpChanaged onExpChanged;
     public OnMonsterCountChanged onMonsterCountChanged;
     public OnSelectedCard onSelectedCard;
+    public OnHPChanged onHpChanged;
     
+    public List<Orb> Orbs = new List<Orb>();
     public Dictionary<string, SelectCard> SelectedCards = new Dictionary<string, SelectCard>();
     
     public int CurrentWave;
@@ -21,11 +24,15 @@ public class Session_Mng : MonoBehaviour
     
     public bool isGameOver = false;
     
+    public float baseMaxHP;
+    
     [Space(20f)]
     [Header("## Player Data ##")]
     public float Damage;
     public float HP;
-    public float MaxHP;
+    public float MaxHP => baseMaxHP * (1f + HPPercent / 100.0f);
+
+
     public float magnetRadius;
 
     
@@ -37,6 +44,12 @@ public class Session_Mng : MonoBehaviour
     public float expPlusPercentage;
     public float CriticalPercentage;
     public float CriticalDamage;
+
+    private void Start()
+    { 
+        baseMaxHP = HP;
+        Base_Canvas.instance.HPChanged(HP);
+    }
 
     private void Update()
     {
@@ -71,18 +84,24 @@ public class Session_Mng : MonoBehaviour
         monsterCount++;
         onMonsterCountChanged?.Invoke(monsterCount);
     }
-    
+
     public void RemoveMonster()
     {
         monsterCount--;
         onMonsterCountChanged?.Invoke(monsterCount);
     }
-    
+
+    public void GetDamage(float dmg)
+    {
+        HP -= dmg;
+        onHpChanged?.Invoke(HP);
+    }
+
     public void AddExp(float exp)
     {
         float realExp = exp + exp * (expPlusPercentage / 100);
         EXP += exp;
-        if (EXP >= GetRequiredExp())
+        if(EXP >= GetRequiredExp())
         {
             EXP = 0;
             Level++;
@@ -90,12 +109,7 @@ public class Session_Mng : MonoBehaviour
         }
         onExpChanged?.Invoke(EXP);
     }
-    public void RegisterSkill(CardDB db)
-    {
-        MANAGER.SKILL.RegisterSkill(db, SelectedCards[db.id].Level);
-        onSelectedCard?.Invoke();
-    }
-    
+
     public int GetRequiredExp()
     {
         int level = Level + 1;
@@ -110,11 +124,25 @@ public class Session_Mng : MonoBehaviour
         else return (level * 16) -8;
     }
     
+    public void RegisterSkill(CardDB db)
+    {
+        MANAGER.SKILL.RegisterSkill(db, SelectedCards[db.id].Level);
+        onSelectedCard?.Invoke();
+    }
+    
     public bool GetCritical()
     {
         float RandomValue = Random.value * 100.0f;
         if (RandomValue <= CriticalPercentage)
             return true;
         else return false;
+    }
+
+    public void RefreshHpbyPercent(float oldMaxHP)
+    {
+        float ratio = HP / oldMaxHP;
+        HP = MaxHP * ratio;
+
+        onHpChanged?.Invoke(HP);
     }
 }

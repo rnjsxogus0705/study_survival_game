@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 
 public class Player : MonoBehaviour
 {
@@ -13,7 +15,11 @@ public class Player : MonoBehaviour
             instance = this;
         }
     }
-  
+
+    [SerializeField] private Volume volume;
+    private Vignette vignette;
+    [SerializeField] private Color vignetteColor;
+
     public float detectionRadius;
     public LayerMask monsterLayer;
     public List<Transform> targets = new List<Transform>();
@@ -23,6 +29,12 @@ public class Player : MonoBehaviour
     { 
         get { return GetNearestMonster(); }
     }
+
+    private void Start()
+    {
+        volume.profile.TryGet(out vignette);
+    }
+
 
     public Vector3 Direction()
     {
@@ -81,33 +93,82 @@ public class Player : MonoBehaviour
     {
         isHit = true;
         StartCoroutine(FlashEmission(0.5f));
-        MANAGER.SESSION.HP -= dmg;
-        if (MANAGER.SESSION.HP <= 0)
-        { 
-            Debug.Log("게임에서 패배하였습니다.");
-            return;
-        }
+        StartCoroutine(CameraShake(Camera.main.transform, 0.1f, 0.05f));
+
+        var damageFont = MANAGER.POOL.Pooling_OBJ("DamageTMP").Get((value) =>
+        {
+            value.GetComponent<DamageTMP>().Initalize(
+                Base_Canvas.instance.HOLDERLAYER,
+                transform.position,
+                ((int)dmg).ToString(),Color.red);
+        });
+
+        MANAGER.SESSION.GetDamage(dmg);
     }
 
     IEnumerator FlashEmission(float fadeTime)
     {
-        for (int i = 0; i < renderer.Length; i++)
-        {
-            renderer[i].material.SetColor("_EmissionColor", Color.white);
-        }
+        Color flashColor = Color.white * 4.0f;
 
         float timer = 0.0f;
-        while (timer < fadeTime)
+        while(timer < fadeTime)
         {
             timer += Time.deltaTime;
-            Color current = Color.Lerp(Color.white, Color.black, timer / fadeTime);
-            for(int i = 0; i < renderer.Length; i++)
+            Color current = Color.Lerp(flashColor, Color.black, timer / fadeTime);
+            for (int i = 0; i < renderer.Length; i++)
                 renderer[i].material.SetColor("_EmissionColor", current);
             yield return null;
         }
-        for(int i = 0; i < renderer.Length; i++)
+
+        for (int i = 0; i < renderer.Length; i++)
             renderer[i].material.SetColor("_EmissionColor", Color.black);
 
         isHit = false;
+    }
+
+    IEnumerator VignettePulse()
+    {
+        float t = 0.0f;
+        float duration = 0.15f;
+        float maxIntensity = 0.4f;
+
+        vignette.color.value = vignetteColor;
+
+        while (t < duration)
+        {
+            t += Time.deltaTime;
+            vignette.intensity.value = Mathf.Lerp(0.0f, maxIntensity, t / duration);
+            yield return null;
+        }
+
+        t = 0.0f;
+        while (t < duration)
+        {
+            t += Time.deltaTime;
+            vignette.intensity.value = Mathf.Lerp(maxIntensity, 0.0f, t / duration);
+            yield return null;
+        }
+
+        vignette.intensity.value = 0.0f;
+    }
+
+    IEnumerator CameraShake(Transform camTransform, float duration, float strength)
+    {
+        Vector3 originalPos = camTransform.localPosition;
+        float timer = 0.0f;
+
+        while(timer < duration)
+        {
+            timer += Time.deltaTime;
+
+            float offsetX = Random.Range(-1.0f, 1.0f) * strength;
+            float offsetY = Random.Range(-1.0f, 1.0f) * strength;
+
+            camTransform.localPosition = originalPos + new Vector3(offsetX, offsetY, 0.0f);
+
+            yield return null;
+        }
+
+        camTransform.localPosition = originalPos;
     }
 }

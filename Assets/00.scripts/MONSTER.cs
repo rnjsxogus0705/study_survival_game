@@ -40,7 +40,7 @@ public class MONSTER : MonoBehaviour
             value.GetComponent<DamageTMP>().Initalize(
                 Base_Canvas.instance.HOLDERLAYER,
                 transform.position,
-                ((int)realDmg).ToString(),
+                ((int)realDmg).ToString(), Color.white,
                 critical);
         });            
         if (HP <= 0)

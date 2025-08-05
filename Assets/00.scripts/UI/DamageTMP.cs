@@ -1,6 +1,7 @@
-using System.Collections;
-using TMPro;
 using UnityEngine;
+using TMPro;
+using System.Collections;
+using Unity.VisualScripting;
 
 public class DamageTMP : MonoBehaviour
 {
@@ -13,7 +14,7 @@ public class DamageTMP : MonoBehaviour
     private float lifetime = 1.0f;
     
     private Color textColor;
-        
+
     private void Awake()
     {
         Critical = transform.Find("Critical").gameObject;
@@ -25,35 +26,37 @@ public class DamageTMP : MonoBehaviour
     {
         Critical.SetActive(critical);
         transform.SetParent(parent);
-        
-        m_Text.text = temp;
 
-        Vector2 screemPosition = Camera.main.WorldToScreenPoint(pos);
-        rectTransform.position = screemPosition;
-        
+        m_Text.text = temp;
+        m_Text.color = color;
+
+        Vector2 screenPosition = Camera.main.WorldToScreenPoint(pos);
+        rectTransform.position = screenPosition;
+
         velocity = new Vector2(Random.Range(-50.0f, 50.0f), Random.Range(150.0f, 250.0f));
-        
+
         textColor = m_Text.color;
 
-        StartCoroutine((MoveAndFade()));
+        StartCoroutine(MoveAndFade());
     }
 
     IEnumerator MoveAndFade()
     {
         float elapsedTime = 0.0f;
-
-        while (elapsedTime < lifetime)
+        
+        while(elapsedTime < lifetime)
         {
             velocity.y += gravity * Time.deltaTime;
 
             rectTransform.anchoredPosition += velocity * Time.deltaTime;
 
             textColor.a = Mathf.Lerp(1.0f, 0.0f, elapsedTime / lifetime);
-            
+            m_Text.color = textColor;
+
             elapsedTime += Time.deltaTime;
             yield return null;
         }
-        
+
         MANAGER.POOL.m_pool_Dictionary["DamageTMP"].Return(this.gameObject);
     }
 }

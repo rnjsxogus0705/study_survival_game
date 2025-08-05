@@ -5,14 +5,13 @@ public class Player_Movement : MonoBehaviour
 {
     public float moveSpeed = 5.0f;
     public Vector3 cameraDir = Vector3.zero;
-    
+
     private Camera m_Camera;
     private Vector3 moveDir;
     private CharacterController controller;
     private Animator animator;
     private void Start()
     {
-        m_Camera = Camera.main;
         animator = GetComponent<Animator>();
         controller = GetComponent<CharacterController>();
     }

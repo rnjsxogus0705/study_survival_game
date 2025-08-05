@@ -1,7 +1,8 @@
+using NUnit.Framework;
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using System.Collections.Generic;
 
 public class Base_Canvas : MonoBehaviour
 {
@@ -14,12 +15,12 @@ public class Base_Canvas : MonoBehaviour
             instance = this;
         }
     }
-    
 
     private void Start()
     {
         EXPChange(0);
         MANAGER.SESSION.onExpChanged += EXPChange;
+        MANAGER.SESSION.onHpChanged += HPChanged;
         MANAGER.SESSION.onMonsterCountChanged += M_CountText;
         MANAGER.SESSION.onSelectedCard += SetSkillFrame;
         
@@ -33,7 +34,13 @@ public class Base_Canvas : MonoBehaviour
     public TextMeshProUGUI LevelText;
     public TextMeshProUGUI monsterCountText;
     public TextMeshProUGUI TimerText;
-    
+
+    Coroutine HP_Coroutine;
+
+    public Image HpFIll;
+    public Image HPFillSeconds;
+    public TextMeshProUGUI HPText;
+
     public SkillFrame frame;
     public Transform frameContent;
     
@@ -72,4 +79,42 @@ public class Base_Canvas : MonoBehaviour
             (MANAGER.SESSION.Level + 1),
             expPercentage * 100.0f); 
     }
+
+    public void HPChanged(float hp)
+    {
+        float hpPercentage = hp / MANAGER.SESSION.MaxHP;
+        HPText.text = string.Format("{0:0}/{1:0}", hp, MANAGER.SESSION.MaxHP);
+        HpFIll.fillAmount = hpPercentage;
+        
+        if(HP_Coroutine != null)
+        {
+            StopCoroutine(HP_Coroutine);
+        }
+        HP_Coroutine = StartCoroutine(SecondFillAmount(HpFIll.fillAmount));
+    }
+
+    IEnumerator SecondFillAmount(float percentage)
+    {
+        float speed = 1.0f;
+        float t = 0.0f;
+        while (HPFillSeconds.fillAmount > percentage)
+        {
+            t += Time.deltaTime * speed;
+            HPFillSeconds.fillAmount = Mathf.Lerp(
+                HPFillSeconds.fillAmount, percentage, t);
+
+            yield return null;
+        }
+        HPFillSeconds.fillAmount = percentage;
+    }
+    
+    private void OnDestroy()
+    {
+        MANAGER.SESSION.onExpChanged -= EXPChange;
+        MANAGER.SESSION.onHpChanged -= HPChanged;
+        MANAGER.SESSION.onMonsterCountChanged -= M_CountText;
+        MANAGER.SESSION.onSelectedCard -= SetSkillFrame;
+    }
+    
+    
 }
