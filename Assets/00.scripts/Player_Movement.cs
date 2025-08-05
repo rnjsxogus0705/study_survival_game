@@ -12,6 +12,7 @@ public class Player_Movement : MonoBehaviour
     private Animator animator;
     private void Start()
     {
+        m_Camera = Camera.main;
         animator = GetComponent<Animator>();
         controller = GetComponent<CharacterController>();
     }

@@ -21,7 +21,7 @@ public abstract class SkillBase : MonoBehaviour
         cardData = data;
         skillid = cardData.id;
         this.level = level;
-        cooldown = cardData.baseCooldown - cardData.cooldownPerLevel * (level - 1);
+        cooldown = cardData.baseCooldown - cardData.cooldownPerLevel * (level + 1);
         timer = 0.0f;
         OnInitalize();
     }
@@ -75,15 +75,14 @@ public abstract class SkillBase : MonoBehaviour
     protected List<MONSTER> RangeMonsterLists(Vector3 randomPos, float radius)
     {
         Collider[] hits = Physics.OverlapSphere(
-            randomPos,
+            randomPos, 
             radius,
-            1 <<LayerMask.NameToLayer("Monster"));
-
+            1 << LayerMask.NameToLayer("Monster"));
         List<MONSTER> monsters = new List<MONSTER>();
 
-        foreach (var col in hits)
+        foreach(var col in hits)
         {
-            if (col.TryGetComponent(out MONSTER m) && m.isSpanwed)
+            if(col.TryGetComponent(out MONSTER m) && m.isSpanwed)
             {
                 monsters.Add(m);
             }

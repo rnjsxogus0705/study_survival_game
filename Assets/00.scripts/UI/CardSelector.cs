@@ -6,7 +6,7 @@ public class CardSelector : MonoBehaviour
     public Card[] cards;
     Animator animator;
     bool isSelected = false;
-    private void Start()
+    private void Awake()
     {
         animator = GetComponent<Animator>();
     }
@@ -23,11 +23,13 @@ public class CardSelector : MonoBehaviour
     {
         if (isSelected) return;
         isSelected = true;
+        Debug.Log($"[CardSelector] SelectCard 호출됨, 선택 인덱스: {value}, 카드: {(cards != null && value < cards.Length && cards[value] != null ? cards[value].card != null ? cards[value].card.name : "cardDB null" : "Card null")}");
         for (int i = 0; i < cards.Length; i++)
         {
             if (i == value)
             {
                 cards[i].SetAnimation("Card_Select");
+                Debug.Log($"[CardSelector] 선택된 카드 인덱스: {i}, 카드 이름: {(cards[i].card != null ? cards[i].card.name : "cardDB null")}");
                 MANAGER.SESSION.SelectedCard(cards[i].card);
                 cards[i].StarCheck();
             }

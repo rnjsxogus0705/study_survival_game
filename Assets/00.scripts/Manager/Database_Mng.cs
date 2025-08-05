@@ -14,6 +14,7 @@ public class Database_Mng : MonoBehaviour
     private void Start()
     {
         Monster = GetDB("Monster");
+        //Projectile = GetDB("Projectile");
         atlas = Resources.Load<SpriteAtlas>("Atlas");
         ActiveCards = new List<CardDB>(Resources.LoadAll<CardDB>("DB/Card/Active"));
         PassiveCards = new List<CardDB>(Resources.LoadAll<CardDB>("DB/Card/Passive"));

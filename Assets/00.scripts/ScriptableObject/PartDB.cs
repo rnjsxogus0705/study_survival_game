@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
- [System.Serializable]
+[System.Serializable]
 public class PartData
 {
     public string id;
@@ -18,11 +18,11 @@ public class PartDB : ScriptableObject
 
     public GameObject Get(string id)
     {
-        if (partMap == null)
+        if(partMap == null)
         {
             partMap = parts.ToDictionary(p => p.id, p => p.prefab);
         }
-        
+
         return partMap.ContainsKey(id) ? partMap[id] : null;
     }
 }

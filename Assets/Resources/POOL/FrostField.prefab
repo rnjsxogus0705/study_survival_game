@@ -9768,6 +9768,7 @@ GameObject:
   - component: {fileID: 2474650005418415231}
   - component: {fileID: 2834462644584366942}
   - component: {fileID: 7786850252850807581}
+  - component: {fileID: -4944079806341369637}
   m_Layer: 0
   m_Name: FrostField
   m_TagString: Untagged
@@ -14608,6 +14609,18 @@ ParticleSystemRenderer:
   m_MeshWeighting2: 1
   m_MeshWeighting3: 1
   m_MaskInteraction: 0
+--- !u!114 &-4944079806341369637
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6992491235734691240}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a02aa77b05d2ab746a91eff36457e381, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &9210528463460366401
 GameObject:
   m_ObjectHideFlags: 0

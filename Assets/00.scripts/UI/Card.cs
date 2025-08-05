@@ -14,7 +14,7 @@ public class Card : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 
     public Color[] colors;
     
-    private void Start()
+    private void Awake()
     {
         animator = GetComponent<Animator>();
     }
@@ -48,7 +48,10 @@ public class Card : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
         if (MANAGER.SESSION.HaveCard(card))
         {
-            for (int i = 0; i < MANAGER.SESSION.SelectedCards[card.id].Level; i++)
+            int level = MANAGER.SESSION.SelectedCards[card.id].Level;
+            int maxStars = Mathf.Min(level, StarParent.childCount); // 범위 제한
+            
+            for (int i = 0; i < maxStars; i++)
             {
                 StarParent.GetChild(i).GetComponent<Image>().color = Color.white;
             }

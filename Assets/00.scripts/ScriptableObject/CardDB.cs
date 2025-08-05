@@ -19,8 +19,8 @@ public class CardDB : ScriptableObject
     public string description;
     public CardState state;
 
-     [Space(20f)] 
-     [Header("스킬 데이터")]
+    [Space(20f)]
+    [Header("스킬 데이터")]
     public float baseCooldown;
     public float baseDamage;
     public float cooldownPerLevel;

@@ -5,7 +5,6 @@ public class Skill04_FrostField : SkillBase
     Vector3 particleRange;
     float targetRange;
     private GameObject FrostFieldParticle;
-
     protected override void Fire()
     {
         var targets = targetLists(targetRange);
@@ -17,12 +16,12 @@ public class Skill04_FrostField : SkillBase
 
     protected override void OnInitalize()
     {
-        float range = 1.2f + 0.3f * (level - 1);
+        float range = 1.2f + 0.3f* (level - 1);
         particleRange = new Vector3(range, range, range);
         targetRange = 5.0f + 1.0f * (level - 1);
-        
+
         FrostFieldParticle = MANAGER.POOL.Pooling_OBJ("FrostField").Get((value) =>
-        { 
+        {
             value.transform.localScale = particleRange;
         });
     }
@@ -31,10 +30,10 @@ public class Skill04_FrostField : SkillBase
     {
         float range = 1.2f + 0.3f * (level - 1);
         particleRange = new Vector3(range, range, range);
-        targetRange = 5.0f + 1.0f * (level - 1);
-
-        if (FrostFieldParticle != null)
+        
+        if(FrostFieldParticle != null)
             FrostFieldParticle.transform.localScale = particleRange;
+        
         targetRange = 5.0f + 1.0f * (level - 1);
     }
 }

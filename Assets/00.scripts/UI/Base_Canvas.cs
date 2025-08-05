@@ -1,8 +1,8 @@
-using NUnit.Framework;
 using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections.Generic;
 
 public class Base_Canvas : MonoBehaviour
 {
@@ -42,19 +42,30 @@ public class Base_Canvas : MonoBehaviour
     public TextMeshProUGUI HPText;
 
     public SkillFrame frame;
-    public Transform frameContent;
+    public Transform activeFrameContent;
+    public Transform passiveFrameContent;
+    List<GameObject> SkillFrameGorvage = new List<GameObject>();
     
     private void SetSkillFrame()
     {
+        if (SkillFrameGorvage.Count > 0)
+        {
+            for (int i = 0; i < SkillFrameGorvage.Count; i++)
+                Destroy(SkillFrameGorvage[i]);
+
+            SkillFrameGorvage.Clear();
+        }
         
-            for (int i = 0; i < frameContent.childCount; i++)
-                Destroy(frameContent.GetChild(i).gameObject);
-        
-            foreach(var data in MANAGER.SESSION.SelectedCards)
-            {
-                var go = Instantiate(frame, frameContent);
-                go.Initalize(data.Value);
-            }
+        foreach(var data in MANAGER.SESSION.SelectedCards)
+        {
+            var go = Instantiate(frame, 
+                data.Value.db.state == CardState.Active ? 
+                activeFrameContent:
+                passiveFrameContent);
+
+            go.Initalize(data.Value);
+            SkillFrameGorvage.Add(go.gameObject);
+        }
     }
 
     private void Update()
@@ -65,6 +76,8 @@ public class Base_Canvas : MonoBehaviour
     public void SelectCard(bool AllActive = false)
     {
         Time.timeScale = 0;
+        if (CardObject != null && !CardObject.gameObject.activeInHierarchy)
+            CardObject.gameObject.SetActive(true);
         CardObject.Initalize(AllActive);
     }
 
