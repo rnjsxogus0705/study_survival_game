@@ -10,7 +10,7 @@ public class Skill04_FrostField : SkillBase
         var targets = targetLists(targetRange);
         foreach (var hit in targets)
         {
-            hit.GetComponent<MONSTER>().GetDamage(Damage());
+            hit.GetComponent<MONSTER>().GetDamage(Damage(hit.GetComponent<StatusEffect>()));
         }
     }
 

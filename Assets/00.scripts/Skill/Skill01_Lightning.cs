@@ -16,7 +16,7 @@ public class Skill01_Lightning : SkillBase
             var lightning = MANAGER.POOL.Pooling_OBJ("Lightning").Get((value) =>
             {
                 value.transform.position = targetPoint.position;
-                targetPoint.GetComponent<MONSTER>().GetDamage(Damage());
+                targetPoint.GetComponent<MONSTER>().GetDamage(Damage(targetPoint.GetComponent<StatusEffect>()));
                 value.GetComponent<ParticleSystem>().Play();
             });
         }

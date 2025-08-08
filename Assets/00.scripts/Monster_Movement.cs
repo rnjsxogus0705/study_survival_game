@@ -6,7 +6,6 @@
         public float speed = 3.0f;
         
         private Rigidbody rb;
-        private Animator animator;
         private void Start()
         {
             rb = GetComponent<Rigidbody>();
@@ -16,7 +15,9 @@
         public override void Initalize(Transform player)
         {
             base.Initalize(player);
+            
             Rotate(direction(), false);
+            
             StartCoroutine(SpawnStartCoroutine(new Vector3(15,15,15)));
         }
 
@@ -41,6 +42,7 @@
         {
             if (isDead) return;
             if (!isSpanwed) return;
+            if (isStunned) return;
             
             MoveAndRotate();
         }
@@ -48,7 +50,7 @@
         void MoveAndRotate()
         {
             Rotate(direction(), false);
-            rb.MovePosition(rb.position + direction() * speed * Time.fixedDeltaTime);
+            rb.MovePosition(rb.position + direction() * speed * speedMultiplier * Time.fixedDeltaTime);
         }
 
         Vector3 direction()

@@ -6,6 +6,8 @@ using UnityEngine.U2D;
 public class Database_Mng : MonoBehaviour
 {
     public PartDB Monster;
+    public PartDB Item;
+
     public List<CardDB> ActiveCards = new List<CardDB>();
     public List<CardDB> PassiveCards = new List<CardDB>();
 
@@ -14,7 +16,7 @@ public class Database_Mng : MonoBehaviour
     private void Start()
     {
         Monster = GetDB("Monster");
-        //Projectile = GetDB("Projectile");
+        Item = GetDB("Item");
         atlas = Resources.Load<SpriteAtlas>("Atlas");
         ActiveCards = new List<CardDB>(Resources.LoadAll<CardDB>("DB/Card/Active"));
         PassiveCards = new List<CardDB>(Resources.LoadAll<CardDB>("DB/Card/Passive"));
@@ -37,12 +39,12 @@ public class Database_Mng : MonoBehaviour
         {
             if (CanBeSelected(card)) activeCandidates.Add(card);
         }
-        
+
         foreach(var card in PassiveCards)
         {
             if (CanBeSelected(card)) passiveCandidates.Add(card);
         }
-        
+
         if(AllActive)
         {
             int count = Mathf.Min(3, activeCandidates.Count);
@@ -55,27 +57,29 @@ public class Database_Mng : MonoBehaviour
             }
             return result.OrderBy(x => Random.value).ToList();
         }
-        
+
         if (activeCandidates.Count > 0)
             result.Add(activeCandidates[Random.Range(0, activeCandidates.Count)]);
-        
+
         if (passiveCandidates.Count > 0)
             result.Add(passiveCandidates[Random.Range(0, passiveCandidates.Count)]);
-        
+
+
         List<CardDB> candidates = new();
         candidates.AddRange(activeCandidates);
         candidates.AddRange(passiveCandidates);
-        
+
         candidates.RemoveAll(x => result.Contains(x));
-        
+
         int totalCount = Mathf.Min(3, candidates.Count);
 
-        while (result.Count < totalCount)
+        while(result.Count < totalCount)
         {
             CardDB pick = candidates[Random.Range(0, candidates.Count)];
             if (!result.Contains(pick))
                 result.Add(pick);
         }
+
         return result.OrderBy(x => Random.value).ToList();
     }
 

@@ -1,9 +1,12 @@
 using System.Collections;
-using Unity.VisualScripting;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
+    public List<StatusEffectClass> status = new List<StatusEffectClass>();
+    public float freezeStack;
+    public float Damage;
     public string BulletName;
     public float speed = 10.0f;
     public float lifetime = 5.0f;
@@ -15,15 +18,18 @@ public class Bullet : MonoBehaviour
     [SerializeField] private ParticleSystem BulletParticle;
     [SerializeField] private GameObject ExplosionParticle;
 
-    public void Initalize(Vector3 dir)
+    public void Initalize(Vector3 dir, float dmg,string bulletName, List<StatusEffectClass> effectClass = null)
     {
         isHit = false;
+        BulletName = bulletName;
+        Damage = dmg;
+        status = effectClass;
         direction = dir;
         BulletParticle.gameObject.SetActive(true);
-        
+
         BulletParticle.Clear();
         BulletParticle.Play();
-        
+
         ExplosionParticle.SetActive(false);
         StartCoroutine(DestroyCoroutine(5));
     }
@@ -48,8 +54,18 @@ public class Bullet : MonoBehaviour
             isHit = true;
             BulletParticle.gameObject.SetActive(false);
             ExplosionParticle.SetActive(true);
-            other.gameObject.GetComponent<MONSTER>().GetDamage(MANAGER.SESSION.Damage);
-            
+            other.gameObject.GetComponent<MONSTER>().GetDamage(Damage);
+
+            if (status != null)
+            {
+                for(int i = 0; i < status.Count; i++)
+                {
+                    MANAGER.SKILL.ApplyStatus(
+                         status[i].status,
+                          other.gameObject.GetComponent<StatusEffect>(),
+                         status[i].value);
+                }
+            }
             StopAllCoroutines();
             StartCoroutine(WaitEffectAndreturn(delay));
         }

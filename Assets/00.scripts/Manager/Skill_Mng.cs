@@ -36,7 +36,7 @@ public class Skill_Mng : MonoBehaviour
         string scriptName = db.className;
 
         Type type = Type.GetType(scriptName);
-        if (type == null || !type.IsSubclassOf(typeof(SkillBase)))
+        if(type == null || !type.IsSubclassOf(typeof(SkillBase)))
         {
             Debug.LogError($"[Skill_Mng] 잘못된 스킬 타입: {scriptName}");
             return null;
@@ -46,12 +46,25 @@ public class Skill_Mng : MonoBehaviour
         return skill;
     }
 
+    public void ApplyStatus(Effect_Status status, StatusEffect effect, float stack = 0.0f)
+    {
+        switch(status)
+        {
+            case Effect_Status.None: break;
+            case Effect_Status.Burn: effect.ApplyBurn(); break;
+            case Effect_Status.Freeze: effect.ApplyFreeze(stack); break;
+            case Effect_Status.Shock: effect.ApplyShock(); break;
+            case Effect_Status.Stun: effect.ApplyStun(); break;
+            case Effect_Status.Knockback: effect.ApplyKnockback(1.5f, 0.2f); break;
+        }
+    }
+
     private void Update()
     {
-        foreach (var skill in activeSkills)
+        foreach(var skill in activeSkills)
         {
             skill.Tick();
         }
     }
-    
 }
+

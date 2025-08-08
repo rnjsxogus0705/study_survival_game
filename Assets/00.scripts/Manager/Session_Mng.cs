@@ -23,21 +23,36 @@ public class Session_Mng : MonoBehaviour
     public float GameTime;
     
     public bool isGameOver = false;
-    
+
     public float baseMaxHP;
+    public float baseDamage;
+    private float hp = 50;
     
     [Space(20f)]
     [Header("## Player Data ##")]
-    public float Damage;
-    public float HP;
+    public float magnetRadius;
+    public float HP
+    {
+        get => hp;
+        set
+        {
+            if (value >= MaxHP)
+                hp = MaxHP;
+            else hp = value;
+
+            onHpChanged?.Invoke(hp);
+        }
+    }
+
+    public float Damage => baseDamage * (1f + DamagePercent / 100.0f);
+
     public float MaxHP => baseMaxHP * (1f + HPPercent / 100.0f);
 
 
-    public float magnetRadius;
 
-    
     [Space(20f)]
     [Header("## Player Plus Data ##")]
+    
     public float DamagePercent;
     public float HPPercent;
     public float magnetRadiusPercent;
@@ -94,7 +109,6 @@ public class Session_Mng : MonoBehaviour
     public void GetDamage(float dmg)
     {
         HP -= dmg;
-        onHpChanged?.Invoke(HP);
     }
 
     public void AddExp(float exp)
@@ -112,16 +126,17 @@ public class Session_Mng : MonoBehaviour
 
     public int GetRequiredExp()
     {
-        int level = Level + 1;
-        if (level < 20)
-            return (level * 10) - 5;
-        else if (level == 20)
-            return (level * 10) - 5 + 600;
-        else if (level < 40)
-            return (level * 13) - 6;
-        else if (level == 40)
-            return (level * 13) - 6 + 2400;
-        else return (level * 16) -8;
+        return 5000;
+        // int level = Level + 1;
+        // if (level < 20)
+        //     return (level * 10) - 5;
+        // else if (level == 20)
+        //     return (level * 10) - 5 + 600;
+        // else if (level < 40)
+        //     return (level * 13) - 6;
+        // else if (level == 40)
+        //     return (level * 13) - 6 + 2400;
+        // else return (level * 16) -8;
     }
     
     public void RegisterSkill(CardDB db)

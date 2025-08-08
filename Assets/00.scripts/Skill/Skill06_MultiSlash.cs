@@ -43,7 +43,7 @@ public class Skill06_MultiSlash : SkillBase
                     MANAGER.POOL.m_pool_Dictionary["Sword"].Return(value);
                 }));
             });
-            var targets = targetLists(10.0f);
+            var targets = targetLists(range);
 
             Vector3 origin = Player.instance.transform.position;
             Vector3 forward = Player.instance.transform.forward;
@@ -53,8 +53,7 @@ public class Skill06_MultiSlash : SkillBase
                 if(target.TryGetComponent(out MONSTER m) && m.isSpanwed)
                 {
                     Vector3 dirToTarget = (target.transform.position - origin).normalized;
-
-                    float dot = Vector3.Dot(Vector3.forward, dirToTarget);
+                    float dot = Vector3.Dot(forward, dirToTarget);
                     float threshold = Mathf.Cos(45.0f * 0.5f * Mathf.Deg2Rad);
 
                     if(dot >= threshold)
@@ -67,7 +66,7 @@ public class Skill06_MultiSlash : SkillBase
             for(int j = 0;j < monsterList.Count; j++)
             {
                 if (monsterList[j].isDead == false)
-                    monsterList[j].GetDamage(Damage());
+                    monsterList[j].GetDamage(Damage(monsterList[j].GetComponent<StatusEffect>()));
             }
 
             yield return new WaitForSeconds(0.1f);

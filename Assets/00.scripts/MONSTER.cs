@@ -1,4 +1,7 @@
+using System;
 using UnityEngine;
+using UnityEngine.UIElements;
+using Random = UnityEngine.Random;
 
 public class MONSTER : MonoBehaviour
 {
@@ -7,15 +10,25 @@ public class MONSTER : MonoBehaviour
 
     public Transform target;
 
-    public string monsterId;
+    public string monsterid;
 
     public bool isSpanwed = false;
     public bool isDead = false;
+    public bool isStunned = false;
 
     private IFactory<MONSTER> factory;
+    protected float speedMultiplier = 1.0f;
+    protected float shockAmp = 0.0f;
+    public Animator animator;
+    
+    StatusEffect effect;
 
     public virtual void Initalize(Transform player)
     {
+        if(effect == null)
+        {
+            effect = GetComponent<StatusEffect>();
+        }
         MANAGER.SESSION.AddMonster();
         isSpanwed = false;
         HP = 10;
@@ -29,12 +42,32 @@ public class MONSTER : MonoBehaviour
         target = player;
         factory.Build(this, monsterId);
     }
+    
+    public void SetStunned(bool isStun)
+    {
+        isStunned = isStun;
+        animator.speed = isStun ? 0.0f : 1.0f;
+    }
+    
+    public void SetSpeedMultiplier(float value)
+    {
+        animator.speed = value;
+        speedMultiplier = value;
+    }
+    
+    public void SetShockAmp(float value)
+    {
+        shockAmp = value;
+    }
+
 
     public void GetDamage(float dmg)
     {
         bool critical = MANAGER.SESSION.GetCritical();
-        float realDmg = critical ? dmg + dmg * (MANAGER.SESSION.CriticalDamage / 100) : dmg;
+        float criticalDmg = critical ? dmg + dmg * (MANAGER.SESSION.CriticalDamage / 100) : dmg;
+        float realDmg = criticalDmg * (1 + shockAmp);
         HP -= realDmg;
+        effect.GetHitEffect();
         var damageFont = MANAGER.POOL.Pooling_OBJ("DamageTMP").Get((value) =>
         {
             value.GetComponent<DamageTMP>().Initalize(
@@ -42,11 +75,25 @@ public class MONSTER : MonoBehaviour
                 transform.position,
                 ((int)realDmg).ToString(), Color.white,
                 critical);
-        });            
+        });
+
         if (HP <= 0)
         {
             isDead = true;
+            effect.Initalize();
             MANAGER.SESSION.RemoveMonster();
+
+            int Random = Random.Range(0, 10);
+            if (RandomCount == 1)
+            {
+                var item = MANAGER.POOL.Pooling_OBJ("Item").Get((value) =>
+                {
+                    value.transform.position = transform.position;
+                    value.GetComponent<Item>().Initalize(("Item_02"));
+                });
+
+            }
+            
             var deadEffect = MANAGER.POOL.Pooling_OBJ("DeadEffect").Get((value) =>
             {
                 value.transform.position = transform.position + new Vector3(0, 0.5f, 0);
@@ -56,7 +103,7 @@ public class MONSTER : MonoBehaviour
                 () => MANAGER.POOL.m_pool_Dictionary["DeadEffect"].Return(deadEffect)));
 
             MANAGER.POOL.m_pool_Dictionary["Monster"].Return(this.gameObject);
-            DropEXP(transform.position, Random.Range(1.0f, 5.0f));
+            DropEXP(transform.position, Random.Range(10.0f, 50.0f));
             
         }
         
@@ -65,14 +112,14 @@ public class MONSTER : MonoBehaviour
 
     private void DropEXP(Vector3 deathPosition, float exp = 1.0f)
     {
-        float[] units = { 3.0f, 1.0f, .25f };
+        float[] units = { 9, 2, 1};
 
         foreach(float unit in units)
         {
             while(exp >= unit)
             {
                 exp -= unit;
-                
+
                 OrbMake(deathPosition, unit);
             }
         }

@@ -14,14 +14,12 @@ public abstract class SkillBase : MonoBehaviour
     {
         return Player.instance.GetCollidersHitMonsters(range);
     }
-
-
     public void Initalize(CardDB data, int level)
     {
         cardData = data;
         skillid = cardData.id;
         this.level = level;
-        cooldown = cardData.baseCooldown - cardData.cooldownPerLevel * (level + 1);
+        cooldown = cardData.baseCooldown - cardData.cooldownPerLevel * (level - 1);
         timer = 0.0f;
         OnInitalize();
     }
@@ -43,25 +41,36 @@ public abstract class SkillBase : MonoBehaviour
         }
     }
 
-    protected float Damage()
+    protected float Damage(StatusEffect effect = null)
     {
-        float percent = cardData.baseDamage + cardData.damagePerLevel * (level - 1);
-        float baseDamage = MANAGER.SESSION.Damage
-            + MANAGER.SESSION.Damage * (MANAGER.SESSION.DamagePercent / 100);
+        float percent = cardData.baseDamage + cardData.damagePerLevel * (level-1);
 
-        float finalDamage = baseDamage * (percent / 100f);
+        float finalDamage = MANAGER.SESSION.Damage * (percent / 100f);
+        
+        if(effect != null)
+            SetApplyStatus(effect);
+
         return finalDamage;
-
     }
-    
     protected void MakeBullet(Vector3 dir)
     {
-        var bullet = MANAGER.POOL.Pooling_OBJ("Fireball").Get((value) =>
+        var bullet = MANAGER.POOL.Pooling_OBJ(cardData.name).Get((value) =>
         {
             value.transform.position = Player.instance.transform.position + new Vector3(0, 0.5f, 0);
             value.transform.rotation = Quaternion.LookRotation(dir);
-            value.GetComponent<Bullet>().Initalize(dir);
+            value.GetComponent<Bullet>().Initalize(dir, Damage(), cardData.name, cardData.effects);
         });
+    }
+
+    protected void SetApplyStatus(StatusEffect effect)
+    {
+        for (int i = 0; i < cardData.effects.Count; i++)
+        {
+            MANAGER.SKILL.ApplyStatus(
+                cardData.effects[i].status,
+                effect,
+                cardData.effects[i].value);
+        }
     }
 
     protected Vector3 RandomPos(float radius)
@@ -94,4 +103,5 @@ public abstract class SkillBase : MonoBehaviour
     protected abstract void OnInitalize();
     protected abstract void OnLevelUp();
     protected abstract void Fire();
+ 
 }

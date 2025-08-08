@@ -87,7 +87,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 8748892135801146194, guid: d554b235cd899284086db46f1bfbd521, type: 3}
+  - {fileID: 2100000, guid: ac65a1094ca72ff4aa21966bf713dddd, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1076,6 +1076,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5228269887728905083}
   - component: {fileID: 6992441472764632076}
+  - component: {fileID: -3916781357603532268}
   m_Layer: 6
   m_Name: Skeleton_02
   m_TagString: Untagged
@@ -1122,6 +1123,19 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &-3916781357603532268
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8897088349821096056}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c2ca286cdeceb8429a3ce7501d8c38b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  renderer: {fileID: 6874464625687518197}
 --- !u!1 &9002192646539071486
 GameObject:
   m_ObjectHideFlags: 0

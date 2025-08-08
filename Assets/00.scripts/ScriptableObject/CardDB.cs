@@ -8,7 +8,13 @@ public class SelectCard
     public int Level;
 }
 
-public enum CardState { Active, Passive }
+[System.Serializable]
+public class StatusEffectClass
+{
+    public Effect_Status status;
+    public float value;
+}
+public enum CardState { Active, Passive, None }
 [CreateAssetMenu(fileName = "Scriptable", menuName = "DB/Card", order = int.MaxValue)]
 public class CardDB : ScriptableObject
 {
@@ -25,4 +31,6 @@ public class CardDB : ScriptableObject
     public float baseDamage;
     public float cooldownPerLevel;
     public float damagePerLevel;
+
+    public List<StatusEffectClass> effects = new List<StatusEffectClass>();
 }
