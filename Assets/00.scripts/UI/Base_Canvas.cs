@@ -31,6 +31,7 @@ public class Base_Canvas : MonoBehaviour
 
     public Image EXPFill;
     public CardSelector CardObject;
+    public Treasure Treasure;
     public TextMeshProUGUI LevelText;
     public TextMeshProUGUI monsterCountText;
     public TextMeshProUGUI TimerText;
@@ -73,11 +74,10 @@ public class Base_Canvas : MonoBehaviour
         TimerText.text = Utils_UI.FormatTime(MANAGER.SESSION.GameTime);
     }
 
-    public void SelectCard(bool AllActive = false)
+    public void SelectTreasure(int value)
     {
         Time.timeScale = 0;
-        if (CardObject != null && !CardObject.gameObject.activeInHierarchy)
-            CardObject.gameObject.SetActive(true);
+ 
         CardObject.Initalize(AllActive);
     }
 
@@ -120,7 +120,7 @@ public class Base_Canvas : MonoBehaviour
         }
         HPFillSeconds.fillAmount = percentage;
     }
-    
+
     private void OnDestroy()
     {
         MANAGER.SESSION.onExpChanged -= EXPChange;

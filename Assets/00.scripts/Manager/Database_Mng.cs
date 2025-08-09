@@ -5,12 +5,13 @@ using UnityEngine.U2D;
 
 public class Database_Mng : MonoBehaviour
 {
+    public LevelDesign levelDesign;
     public PartDB Monster;
     public PartDB Item;
 
     public List<CardDB> ActiveCards = new List<CardDB>();
     public List<CardDB> PassiveCards = new List<CardDB>();
-
+    public List<CardDB> NoneCards = new List<CardDB>();
     SpriteAtlas atlas;
 
     private void Start()
@@ -20,6 +21,7 @@ public class Database_Mng : MonoBehaviour
         atlas = Resources.Load<SpriteAtlas>("Atlas");
         ActiveCards = new List<CardDB>(Resources.LoadAll<CardDB>("DB/Card/Active"));
         PassiveCards = new List<CardDB>(Resources.LoadAll<CardDB>("DB/Card/Passive"));
+        NoneCards = new List<CardDB>(Resources.LoadAll<CardDB>("DB/Card/None"));
     }
 
     public Sprite GetSprite(string temp)
@@ -100,9 +102,9 @@ public class Database_Mng : MonoBehaviour
 
         return true;
     }
-    
+
     private PartDB GetDB(string path)
     {
-        return Resources.Load<PartDB>("DB/Part/" + path);
+        return Resources.Load<PartDB>("DB/Part/" + path);    
     }
 }

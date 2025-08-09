@@ -1,16 +1,16 @@
-using System;
+using NUnit.Framework.Internal;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UIElements;
-using Random = UnityEngine.Random;
 
 public class MONSTER : MonoBehaviour
 {
     public float HP;
-    public float MaxHP;
+    internal float MaxHP;
 
     public Transform target;
 
-    public string monsterid;
+    public string monsterId;
 
     public bool isSpanwed = false;
     public bool isDead = false;
@@ -82,17 +82,6 @@ public class MONSTER : MonoBehaviour
             isDead = true;
             effect.Initalize();
             MANAGER.SESSION.RemoveMonster();
-
-            int Random = Random.Range(0, 10);
-            if (RandomCount == 1)
-            {
-                var item = MANAGER.POOL.Pooling_OBJ("Item").Get((value) =>
-                {
-                    value.transform.position = transform.position;
-                    value.GetComponent<Item>().Initalize(("Item_02"));
-                });
-
-            }
             
             var deadEffect = MANAGER.POOL.Pooling_OBJ("DeadEffect").Get((value) =>
             {
@@ -103,7 +92,7 @@ public class MONSTER : MonoBehaviour
                 () => MANAGER.POOL.m_pool_Dictionary["DeadEffect"].Return(deadEffect)));
 
             MANAGER.POOL.m_pool_Dictionary["Monster"].Return(this.gameObject);
-            DropEXP(transform.position, Random.Range(10.0f, 50.0f));
+            DropEXP(transform.position);
             
         }
         

@@ -43,16 +43,12 @@ public class Session_Mng : MonoBehaviour
             onHpChanged?.Invoke(hp);
         }
     }
-
     public float Damage => baseDamage * (1f + DamagePercent / 100.0f);
-
     public float MaxHP => baseMaxHP * (1f + HPPercent / 100.0f);
-
 
 
     [Space(20f)]
     [Header("## Player Plus Data ##")]
-    
     public float DamagePercent;
     public float HPPercent;
     public float magnetRadiusPercent;
@@ -90,6 +86,11 @@ public class Session_Mng : MonoBehaviour
             selected.Level = 1;
             SelectedCards.Add(db.id, selected);
         }
+        RegisterSkill(db);
+    }
+
+    public void RegisterSkill(CardDB db)
+    {
         MANAGER.SKILL.RegisterSkill(db, SelectedCards[db.id].Level);
         onSelectedCard?.Invoke();
     }
@@ -126,24 +127,18 @@ public class Session_Mng : MonoBehaviour
 
     public int GetRequiredExp()
     {
-        return 5000;
-        // int level = Level + 1;
-        // if (level < 20)
-        //     return (level * 10) - 5;
-        // else if (level == 20)
-        //     return (level * 10) - 5 + 600;
-        // else if (level < 40)
-        //     return (level * 13) - 6;
-        // else if (level == 40)
-        //     return (level * 13) - 6 + 2400;
-        // else return (level * 16) -8;
+        int level = Level + 1;
+        if (level < 20)
+            return (level * 10) - 5;
+        else if (level == 20)
+            return (level * 10) - 5 + 600;
+        else if (level < 40)
+            return (level * 13) - 6;
+        else if (level == 40)
+            return (level * 13) - 6 + 2400;
+        else return (level * 16) -8;
     }
     
-    public void RegisterSkill(CardDB db)
-    {
-        MANAGER.SKILL.RegisterSkill(db, SelectedCards[db.id].Level);
-        onSelectedCard?.Invoke();
-    }
     
     public bool GetCritical()
     {
